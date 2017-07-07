@@ -45,8 +45,9 @@ module.exports = function(robot) {
    * @param {boolean} showScores - whether to show the score for each option
    */
   var printPoll = function(poll, msg, showScores) {
-    msg.send(poll.id + '. ' + poll.question + ' (created by ' + poll.author + ')');
-    msg.send('options:');
+    var msgString = "";
+    msgString += poll.id + '. ' + poll.question + ' (created by ' + poll.author + ')\n';
+    msgString += 'options:\n';
     var optionsStr = '';
     poll.options.forEach(function(option, idx) {
       var label = String.fromCharCode(idx + 97); // map option idx to alpha letters
@@ -57,8 +58,9 @@ module.exports = function(robot) {
       optionsStr += optionStr;
       optionsStr += '\n';
     });
-    msg.send(optionsStr);
-    msg.send('To vote on this poll, private message me `poll vote [poll number] [option letter]`, e.g., `poll vote 1 a`. To see results for this poll, say `poll results [poll number]`.');
+    msgString += optionsStr;
+    msgString += 'To vote on this poll, private message me `poll vote [poll number] [option letter]`, e.g., `poll vote 1 a`. To see results for this poll, say `poll results [poll number]`.';
+    msg.send(msgString);
   };
 
   robot.hear(/poll create "(.+)"/i, function(msg) {
